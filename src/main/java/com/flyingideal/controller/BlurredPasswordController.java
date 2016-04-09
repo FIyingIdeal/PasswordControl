@@ -32,7 +32,7 @@ public class BlurredPasswordController {
         boolean flag = true;
         System.out.println("Inside Exception");
         if (flag) {
-            throw new Exception("燕潮");
+            throw new Exception("123");
         }
         return "view";
     }
