@@ -1,7 +1,7 @@
 package com.flyingideal.service;
 
 import com.flyingideal.dao.UserMapper;
-import com.flyingideal.model.User;
+import com.flyingideal.model.UserModel;
 import com.flyingideal.utility.UserPasswordUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +17,32 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public int addUser(User user) {
+    public int addUser(UserModel userModel) {
         Map<String, String> reslut = null;
         byte[] salt = UserPasswordUtil.getSalt();
-        byte[] passwordHash = UserPasswordUtil.hashPassword(user.getPassword(), salt);
-        user.setPasswordSalt(salt, passwordHash);
-        return userMapper.addUser(user);
+        byte[] passwordHash = UserPasswordUtil.hashPassword(userModel.getPassword(), salt);
+        userModel.setPasswordSalt(salt, passwordHash);
+        return userMapper.addUser(userModel);
     }
 
-    public User login(User user) {
-        User dbUser = userMapper.findUserByUserName(user.getUserName());
-        if (dbUser != null && isPasswordValid(dbUser, user.getPassword())) {
-            return dbUser;
+    public UserModel login(UserModel userModel) {
+        UserModel dbUserModel = userMapper.findUserByUserName(userModel.getUserName());
+        if (dbUserModel != null && isPasswordValid(dbUserModel, userModel.getPassword())) {
+            return dbUserModel;
         }
         return null;
     }
 
-    private boolean isPasswordValid(User dbUser, String password) {
-        byte[] passwordSalt = Base64.decodeBase64(dbUser.getPasswordSalt());
-        byte[] passwordHash = Base64.decodeBase64(dbUser.getPassword());
+    public UserModel checkUserCredentials(String username, String password) {
+        UserModel userModel = new UserModel();
+        userModel.setUserName(username);
+        userModel.setPassword(password);
+        return this.login(userModel);
+    }
+
+    private boolean isPasswordValid(UserModel dbUserModel, String password) {
+        byte[] passwordSalt = Base64.decodeBase64(dbUserModel.getPasswordSalt());
+        byte[] passwordHash = Base64.decodeBase64(dbUserModel.getPassword());
 
         if (passwordSalt == null || passwordHash == null) {
             return false;

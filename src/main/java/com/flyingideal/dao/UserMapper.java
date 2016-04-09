@@ -1,7 +1,6 @@
 package com.flyingideal.dao;
 
-import com.flyingideal.model.User;
-import org.apache.ibatis.annotations.Select;
+import com.flyingideal.model.UserModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,20 +12,20 @@ import java.util.List;
 public interface UserMapper {
 
     int getCount();
-    List<User> getAllUser();
+    List<UserModel> getAllUser();
     /**
      * add user
-     * @param user
+     * @param userModel
      * @return
      */
-    int addUser(User user);
+    int addUser(UserModel userModel);
 
     /**
      * find user by username
      * @param userName
      * @return
      */
-    User findUserByUserName(String userName);
+    UserModel findUserByUserName(String userName);
 
-    User getUserByUserId(int userId);
+    UserModel getUserByUserId(int userId);
 }

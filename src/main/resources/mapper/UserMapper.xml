@@ -4,7 +4,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.flyingideal.dao.UserMapper">
-    <resultMap id="User" type="com.flyingideal.model.User"/>
+    <resultMap id="User" type="com.flyingideal.model.UserModel"/>
     <select id="getAllUser" resultMap="User">
         SELECT * FROM user
     </select>
@@ -13,15 +13,15 @@
         SELECT count(1) FROM  user
     </select>
 
-    <insert id="addUser" parameterType="com.flyingideal.model.User">
+    <insert id="addUser" parameterType="com.flyingideal.model.UserModel">
         INSERT INTO user (username, password, comment, passwordSalt) VALUE (#{userName}, #{password}, #{comment}, #{passwordSalt})
     </insert>
 
-    <select id="findUserByUserName" parameterType="String" resultType="com.flyingideal.model.User">
+    <select id="findUserByUserName" parameterType="String" resultType="com.flyingideal.model.UserModel">
         SELECT * FROM user where userName = #{userName}
     </select>
 
-    <select id="getUserByUserId" parameterType="int" resultType="com.flyingideal.model.User">
+    <select id="getUserByUserId" parameterType="int" resultType="com.flyingideal.model.UserModel">
         SELECT * FROM user where userId = #{userId}
     </select>
 </mapper>

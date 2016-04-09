@@ -1,7 +1,7 @@
 package com.flyingideal.usertest.dao;
 
 import com.flyingideal.dao.UserMapper;
-import com.flyingideal.model.User;
+import com.flyingideal.model.UserModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,15 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
-public class UserTest {
+public class UserModelTest {
     @Autowired
     private UserMapper userMapper;
 
     @Test
     public void UserTest() {
-        List<User> allUsers = userMapper.getAllUser();
-        for (User user : allUsers) {
-            System.out.println(user.getUserName()+ "," +user.getPassword());
+        List<UserModel> allUserModels = userMapper.getAllUser();
+        for (UserModel userModel : allUserModels) {
+            System.out.println(userModel.getUserName()+ "," + userModel.getPassword());
         }
     }
 
@@ -34,17 +34,17 @@ public class UserTest {
 
     @Test
     public void addUserTest() {
-        User user = new User();
-        user.setUserName("test");
-        user.setPassword("test");
-        user.setComment("test");
-        int addNum = userMapper.addUser(user);
+        UserModel userModel = new UserModel();
+        userModel.setUserName("test");
+        userModel.setPassword("test");
+        userModel.setComment("test");
+        int addNum = userMapper.addUser(userModel);
         System.out.println("成功插入" + addNum + "名用户！");
     }
 
     @Test
     public void getUserByUserId() {
-        User user = userMapper.getUserByUserId(2);
-        System.out.println(user.toString());
+        UserModel userModel = userMapper.getUserByUserId(2);
+        System.out.println(userModel.toString());
     }
 }
