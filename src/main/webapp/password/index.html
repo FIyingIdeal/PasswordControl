@@ -3,11 +3,52 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>index</title>
+    <style>
+        div.outter
+        {
+            width:500px; height:100px;position:relative; margin:auto;top: 200px;
+        }
+        div.input_div
+        {
+            border:solid 1px black; width: 440px; height:30px;float:left;
+            zoom:1;
+        }
+        .subject
+        {
+            width: 435px;
+            height: 25px;
+        }
+        .search
+        {
+            border:solid 0.5px black;
+            height:31.5px;
+            width:58px;
+            text-align: center;
+            float:left;
+        }
+        div.result
+        {
+            border: solid 1px darkgray;
+            /*height: 150px;*/
+            width: 440px;
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/password.js"></script>
 </head>
 <body>
-<input id="subject" />
-<div id="subjects" ></div>
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/password.js"></script>
+<div class="outter">
+    <div class="input_div">
+        <input id="subject" class="subject" type="text" />
+    </div>
+    <div><input type="button" value="搜索" class="search"></div>
+    <div style="clear:both"></div><!--清除float造成的高度塌陷问题-->
+
+    <div class="result">
+        <ul></ul>
+    </div>
+</div>
+
 </body>
 </html>
