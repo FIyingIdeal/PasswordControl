@@ -11,6 +11,4 @@
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
-
-    <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
 </beans>
