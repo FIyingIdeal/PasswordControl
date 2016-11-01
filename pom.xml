@@ -154,6 +154,20 @@
           <version>1.17</version>
       </dependency>
 
+      <!--Elasticsearch搜索-->
+      <dependency>
+          <groupId>org.elasticsearch.client</groupId>
+          <artifactId>transport</artifactId>
+          <version>5.0.0</version>
+      </dependency>
+
+      <!--log4j-->
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+          <version>2.6.2</version>
+      </dependency>
+
   </dependencies>
   <build>
     <finalName>passwordcontrol</finalName>
