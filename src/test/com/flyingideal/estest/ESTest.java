@@ -10,6 +10,8 @@ import org.elasticsearch.action.get.MultiGetItemResponse;
 import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.MultiSearchResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -22,9 +24,13 @@ import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptService;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
@@ -325,15 +331,73 @@ public class ESTest {
     }
 
     //--------------------Search API---------
+
+    /**
+     * Search API，可跨索引跨类型执行查询，最简形式：SearchResponse res = getESClient().prepareSearch().get(); ==> GET /_search
+     * 代码中设置相当于：GET /twitter,us/tweet/_search?q=user:yanchao
+     *  https://www.elastic.co/guide/en/elasticsearch/reference/5.0/search-search.html
+     */
     @Test
     public void searchResponse() {
-        SearchResponse response = getESClient().prepareSearch("twitter")
-                .setTypes("tweet")
+        SearchResponse response = getESClient()
+                .prepareSearch("twitter", "us")     //不设置参数的话，查询所有的indices
+                .setTypes("tweet")      //不设置的话查询所有type
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                //.setQuery(QueryBuilders.termQuery("yanchao", "yanchao"))     // Query
+                .setQuery(QueryBuilders.termQuery("user", "yanchao"))     // Query
                 //.setPostFilter(QueryBuilders.rangeQuery("age").from(12).to(18))     // Filter
-                .setFrom(0).setSize(60).setExplain(true)
+                .setFrom(0).setSize(60)
+                //.setExplain(true)
                 .get();
         System.out.println(response.toString());
+    }
+
+    /**
+     * Scroll Test，Scroll不是用于实时请求，而是用于处理大量数据的
+     * 一个滚屏搜索允许我们做一个初始阶段搜索并且持续批量从Elasticsearch里拉取结果直到没有结果剩下。这有点像传统数据库里的cursors（游标）。
+     * 滚屏搜索会及时制作快照。这个快照不会包含任何在初始阶段搜索请求后对index做的修改。
+     * 它通过将旧的数据文件保存在手边，所以可以保护index的样子看起来像搜索开始时的样子。
+     */
+    @Test
+    public void scroll() {
+        QueryBuilder qb = QueryBuilders.termQuery("user", "yanchao");
+        SearchResponse scrollResponse = getESClient().prepareSearch()
+                .addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC)
+                .setScroll(new TimeValue(60000))    //设置scroll持续时间为1分钟
+                .setQuery(qb)   //设置查询条件
+                .setSize(2)     //每次返回的条数，数据量较小，设置为2用于观察效果
+                .get();
+        do {
+            System.out.println("-------------another request---------");
+            for (SearchHit hit : scrollResponse.getHits().getHits()) {
+                System.out.println(hit.getSource());
+            }
+            //第一次请求的时候不会返回任何的hits，但会返回一个scrollId，第二次请求的时候需带上这个Id
+            scrollResponse = getESClient().prepareSearchScroll(
+                    scrollResponse.getScrollId())       //设置scrollId,在第一次获取到scrollId后，第二次请求无需设置index和type
+                    .setScroll(new TimeValue(60000))    //告诉Elasticsearch重新设置scroll持续时间为1分钟
+                    .get();
+        } while(scrollResponse.getHits().getHits().length > 0);
+    }
+
+    //MultiSearch
+    @Test
+    public void multiSearch() {
+        TransportClient client = getESClient();
+        SearchRequestBuilder srb1 = client.prepareSearch()
+                .setQuery(QueryBuilders.queryStringQuery("Elasticsearch"))
+                .setSize(1);
+        SearchRequestBuilder srb2 = client.prepareSearch()
+                .setQuery(QueryBuilders.matchQuery("user", "yanchao"))
+                .setSize(1);
+
+        MultiSearchResponse msr = client.prepareMultiSearch()
+                .add(srb1).add(srb2).get();
+
+        long nbHits = 0;
+        for (MultiSearchResponse.Item item : msr.getResponses()) {
+            SearchResponse response = item.getResponse();
+            System.out.println(nbHits + "----" + response.toString());
+            nbHits += response.getHits().getTotalHits();
+        }
     }
 }
