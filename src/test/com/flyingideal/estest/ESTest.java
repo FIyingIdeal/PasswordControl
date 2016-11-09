@@ -361,7 +361,7 @@ public class ESTest {
     public void scroll() {
         QueryBuilder qb = QueryBuilders.termQuery("user", "yanchao");
         SearchResponse scrollResponse = getESClient().prepareSearch()
-                .addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC)
+                .addSort("postDate", SortOrder.DESC)
                 .setScroll(new TimeValue(60000))    //设置scroll持续时间为1分钟
                 .setQuery(qb)   //设置查询条件
                 .setSize(2)     //每次返回的条数，数据量较小，设置为2用于观察效果
@@ -399,5 +399,68 @@ public class ESTest {
             System.out.println(nbHits + "----" + response.toString());
             nbHits += response.getHits().getTotalHits();
         }
+    }
+
+    //Terminate After
+    @Test
+    public void terminateAfter() {
+        SearchResponse response = getESClient().prepareSearch()
+                .setTerminateAfter(100000)
+                .get();
+        System.out.println(response.isTerminatedEarly());
+    }
+
+    //----------Query DSL-----
+    //Match All Query:相当于 GET /_search {"query" : { "march_all": {}}}
+    /**
+     *
+     */
+    @Test
+    public void matchAllQuery() {
+        QueryBuilder qb = QueryBuilders.matchAllQuery();
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.getHits().getTotalHits());
+    }
+
+    //Match Query == GET /_search {"query" : {"match": {"user": "yanchao"}}}
+    /**
+     *官方说明： The standard query for performing full text queries, including fuzzy matching and phrase or proximity queries.
+     *翻译：用于执行全文查询的标准查询，包括模糊匹配、词组或邻近查询
+     *说明：Match Query 在执行搜索之前会对被搜索内容进行分词，然后执行查询，部分分词匹配上的document也会被返回
+     */
+    @Test
+    public void matchQuery() {
+        QueryBuilder qb = QueryBuilders.matchQuery("user", "yanchao");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Multi Match Query == GET /_search {"query":{"multi_match": {"query":"yanchao", "fields":["user","message"]}}}
+    /**
+     *官方说明：The multi-field version of the match query.
+     *翻译：Match Query 的多字段查询版本
+     *说明：可以指定多个字段针对某一内容进行查询
+     */
+    @Test
+    public void multiMatchQuery() {
+        QueryBuilder qb = QueryBuilders.multiMatchQuery(
+                "yanchao",          //text
+                "user", "message"   //field
+        );
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.getHits().getTotalHits());
+    }
+
+
+    //common terms query: 这个查询的最有趣的属性是它自动适应域特定的停用词
+    @Test
+    public void commonTermsQuery() {
+        QueryBuilder qb = QueryBuilders.commonTermsQuery("message", "多少");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
     }
 }
