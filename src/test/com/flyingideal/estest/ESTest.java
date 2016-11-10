@@ -423,6 +423,8 @@ public class ESTest {
         System.out.println(response.getHits().getTotalHits());
     }
 
+
+    //////-----Full Text Query: analyze the query string before executing---BEGIN---
     //Match Query == GET /_search {"query" : {"match": {"user": "yanchao"}}}
     /**
      *官方说明： The standard query for performing full text queries, including fuzzy matching and phrase or proximity queries.
@@ -456,6 +458,18 @@ public class ESTest {
 
 
     //common terms query: 这个查询的最有趣的属性是它自动适应域特定的停用词
+    /**
+     * GET /_search
+     * {
+     *     "query": {
+     *         "common":{
+     *             "message": {
+     *                 "query": "多少"
+     *             }
+     *         }
+     *     }
+     * }
+     */
     @Test
     public void commonTermsQuery() {
         QueryBuilder qb = QueryBuilders.commonTermsQuery("message", "多少");
@@ -463,4 +477,245 @@ public class ESTest {
                 .setQuery(qb).get();
         System.out.println(response.toString());
     }
+
+    //Query String Query
+    /**
+     * GET /_search
+     * {
+     *      "query": {
+     *          "query_string": {
+     *              "default_field" : ["message", "user"],
+     *              "query":"多少"
+     *           }
+     *      }
+     * }
+     */
+    @Test
+    public void queryStringQuery() {
+        //Java中暂时没发现可以设置field。默认使用_all,即所有字段，Restful可以设置
+        QueryBuilder qb = QueryBuilders.queryStringQuery("多少");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Simple Query String Query
+    /**
+     * 使用SimpleQueryParser来解析其上下文的查询。 与常规query_string查询不同，simple_query_string查询将不会抛出异常，并丢弃查询的无效部分
+     * GET /_search
+     {
+         "query": {
+             "simple_query_string": {
+                     "query": "+宝",
+                     "fields": ["message"]
+                 }
+         }
+     }
+     */
+    @Test
+    public void simpleQueryStringQuery() {
+        QueryBuilder qb = QueryBuilders.simpleQueryStringQuery("+宝");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    /////-----Full Text Query: analyze the query string before executing---END---
+
+
+    /////-----Term Level Queries: operate on the exact terms that are stored in the inverted index(实现精准查询，不对查询内容进行分词)---BEGIN--------
+
+    //Term Query : Find documents which contain the exact term specified in the field specified
+    /**
+     * GET /_search
+     * {
+     *     "query": {
+     *         "term": {"message": "宝"}
+     *     }
+     * }
+     */
+    @Test
+    public void termQuery() {
+        QueryBuilder qb = QueryBuilders.
+                termQuery("message", "宝");  //可能是默认的分词器在汉语中切分的时候按字为最小切分单元，故按字查询的时候有结果，但按多字词查询的时候无结果
+        SearchResponse response = getESClient().prepareSearch().setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Terms Query:Filters documents that have fields that match any of the provided terms (not analyzed)
+    /**
+     *GET /_search
+     {
+         "query": {
+             "constant_score": {
+                 "filter": {
+                    "terms": {"message": ["多","宝"]}
+                 },
+             }
+         }
+     }
+     */
+    @Test
+    public void termsQuery() {
+        QueryBuilder qb = QueryBuilders.termsQuery(
+                "message",  //field
+                "宝", "多"); //values
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Range Query
+    /**
+     *GET /_search
+     {
+         "query": {
+             "range": {
+                 "age": {
+                     "gte": 10,
+                     "lt": 21
+                 }
+             }
+         }
+     }
+     */
+    @Test
+    public void rangeQuery() {
+        QueryBuilder qb = QueryBuilders.rangeQuery("age")//field name
+                .from(15)               //范围开始值
+                .to(27)                 //范围结束值
+                .includeLower(false)    //是否包含from()的参数值：15
+                .includeUpper(true);    //是否包含to()的参数值：25
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+
+        //简写方式
+        QueryBuilder qb1 = QueryBuilders.rangeQuery("age")
+                .gt(15)
+                .lte(27);       //大于15，小于等于27
+        SearchResponse response1 = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response1.toString());
+    }
+
+    //Exists Query: 查询包含非null字段的documents，返回结果为包含该field的documents
+    /**
+     *GET /_search
+     {
+         "query": {
+            "exists": {"field": "user"}
+         }
+     }
+     */
+    @Test
+    public void existsQuery() {
+        QueryBuilder qb = QueryBuilders.existsQuery("user");    //field
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Prefix Query: 匹配某一个字段的值是以某一前缀开始
+    /**
+     *GET /_search
+     {
+         "query": {
+             "prefix": {"name":"yan"}
+         }
+     }
+     */
+    @Test
+    public void prefixQuery() {
+        QueryBuilder qb = QueryBuilders.prefixQuery("name", "yan");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Wildcard(通配符) Query：*代表多个字符，?代表单个字符，为了不影响查询效率，最好不要将通配符用于开头
+    /**
+     * GET /_search
+     {
+         "query": {
+             "wildcard": {"name":"yan*"}
+         }
+     }
+     */
+    @Test
+    public void wildcardQuery() {
+        QueryBuilder qb = QueryBuilders.wildcardQuery("name", "yan*");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Regexp Query:没搞明白，下边查询没有结果？？
+    @Test
+    public void regexpQuery() {
+        QueryBuilder qb = QueryBuilders.regexpQuery("name", "yan*");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Fuzzy Query:模糊查询，例如查询yanchao可以查出yanghao，5.0已废弃
+    /**
+     *GET /_search
+     {
+         "query": {
+             "fuzzy": {"name":"yanchao"}
+         }
+     }
+     */
+    @Test
+    public void fuzzyQuery() {
+        QueryBuilder qb = QueryBuilders.fuzzyQuery("name", "yanchao");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Type Query: 根据类型名查询该类型(type)下的所有文档
+    /**
+     *GET /_search
+     {
+         "query": {
+            "type": {"value": "type"}
+         }
+     }
+     */
+    @Test
+    public void typeQuery() {
+        QueryBuilder qb = QueryBuilders.typeQuery("type");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    //Ids Query: 根据Ids查询documents
+    /**
+     *GET /_search
+     {
+         "query": {
+             "ids": {
+                 "type": ["type","tweet"],
+                 "values": ["1","2","3"]
+             }
+         }
+     }
+     */
+    @Test
+    public void idsQuery() {
+        QueryBuilder qb = QueryBuilders.idsQuery("type", "tweet")   //设置type，方法参数可选
+                    .addIds("1", "2", "3");
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
+
+    /////-----Term Level Queries: operate on the exact terms that are stored in the inverted index(实现精准查询，不对查询内容进行分词)---END--------
+
+
+    /////-----Compound Query：复合查询
 }
