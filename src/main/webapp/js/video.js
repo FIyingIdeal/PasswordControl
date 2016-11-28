@@ -10,7 +10,7 @@
             that.initEm();
             that.initEvent();
         })
-    }
+    };
 
     var pro = bvd.prototype;
 
@@ -24,27 +24,83 @@
         this.vC.classList.add('controls');
         this.vC.innerHTML = '<div><div class="progressBar"><div class="timeBar"></div></div></div><div><span class="current">00:00</span>/<span class="duration">00:00</span></div><div><span class="fill">全屏</span></div>';
         this.vRoom.appendChild(this.vC);
-    }
+    };
 
     pro.initEvent = function() {
         var that = this;
-        this.vimg.addEventListener('tap', function() {
-            this.style.display = 'none';
-            that.video.play();
-        })
 
+        //播放按钮事件
+        this.vimg.addEventListener('tap', function() {
+            that.video.play();
+        });
+
+        //视频点击暂停或播放事件
+        this.video.addEventListener('tap', function() {
+            if (this.paused || this.ended) {
+                if (this.ended) {
+                    this.currentTime = 0;
+                }
+                this.play();
+            } else {
+                this.pause();
+            }
+        });
+
+        this.video.addEventListener('play', function() {
+            //播放按钮隐藏
+            that.vimg.style.display = 'none';
+            //进度条3.4s后隐藏
+            that.vC.classList.add('vhidden');
+            that.vCt = setTimeout(function() {
+                that.vC.style.visibility = 'hidden';
+            }, 3400);
+        });
+
+        //视频时长设置
         this.video.addEventListener('loadedmetadata', function() {
-            console.log(this);
-            that.vC.querySelector('.duration').innerHTML = this.duration;
-        })
-    }
+            that.vDuration = this.duration;
+            that.vC.querySelector('.duration').innerHTML = stom(this.duration);
+        });
+
+        //当前播放时长及进度条设置
+        this.video.addEventListener('timeupdate', function() {
+            var currentPos = this.currentTime;
+            var percentage = 100 * currentPos / that.vDuration;
+            that.vC.querySelector('.timeBar').style.width = percentage + '%';
+            that.vC.querySelector('.current').innerHTML = stom(currentPos);
+        });
+
+        //暂停设置：显示播放按钮及进度条，清除进度条隐藏的时间设置
+        this.video.addEventListener('pause', function() {
+            that.vimg.style.display = 'block';
+            that.vC.classList.remove('vhidden');
+            that.vC.style.visibility = 'visible';
+            that.vCt && clearTimeout(that.vCt);
+        });
+
+        //视频手势右滑事件
+        this.video.addEventListener('swiperight', function(e) {
+            this.currentTime += 5;
+        });
+
+        //视频手势左滑事件
+        this.video.addEventListener('swipeleft', function(e) {
+            this.currentTime -= 5;
+        });
+    };
 
     pro.test = function(){
         console.log(this.dom)
-    }
+    };
 
     var nv = null;
     $.bvd = function(dom) {
         return nv || (nv = new bvd(dom));
     }
-}(mui))
+}(mui));
+
+function stom(t) {
+    var m = Math.floor(t / 60);
+    m < 10 && (m = '0' + m);
+    return m + ":" + (t % 60 / 100).toFixed(2).slice(-2);
+}

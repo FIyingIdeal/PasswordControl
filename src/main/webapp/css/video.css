@@ -47,3 +47,37 @@
     flex: 2;
     text-align: center;
 }
+
+.bad-video .controls .progressBar {
+    margin: .75rem 5%;
+    position: relative;
+    width: 90%;
+    height: .5rem;
+    background-color: rgba(200, 200, 200, .55);
+    border-radius: 10px;
+}
+
+.bad-video .controls .timeBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(99, 110, 225, .85);
+    border-radius: 10px;
+}
+
+@keyframes vhide {
+    0% {opacity: 1;} 100% {opacity: 0;}
+}
+
+@-webkit-keyframes vhide {
+    0% {opacity: 1;} 100% {opacity: 0;}
+}
+
+.vhidden {
+    animation: vhide 3.5s ease-in;
+    -webkit-animation: vhide 3.5s ease-in;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+}

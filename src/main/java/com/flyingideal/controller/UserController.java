@@ -3,16 +3,14 @@ package com.flyingideal.controller;
 import com.flyingideal.model.UserModel;
 import com.flyingideal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-/*import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;*/
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +19,6 @@ import java.util.Map;
  * Created by Administrator on 2016/2/3.
  */
 @Controller
-/*@EnableWebMvcSecurity*/
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -42,16 +39,21 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(/*@AuthenticationPrincipal User user,*/ @RequestBody UserModel userModel, HttpSession session) {
+    public ModelAndView login(/*@RequestBody UserModel userModel*/HttpServletRequest request, HttpSession session) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("status", true);
-        /*System.out.println("111111111111111111" + user);
-        System.out.println(user.getUsername() + "    " + user.getPassword());*/
+
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        UserModel userModel = new UserModel();
+        userModel.setUserName(userName);
+        userModel.setPassword(password);
         UserModel dbUser = userService.login(userModel);
         if (dbUser != null) {
             session.setAttribute(CURRENTUSER, dbUser);
             result.put("userName", dbUser.getUserName());
         }
-        return result;
+        ModelAndView modelAndView = new ModelAndView("/bs_password/index.html");
+        return modelAndView;
     }
 }

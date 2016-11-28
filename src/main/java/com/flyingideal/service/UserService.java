@@ -18,7 +18,6 @@ public class UserService {
     private UserMapper userMapper;
 
     public int addUser(UserModel userModel) {
-        Map<String, String> reslut = null;
         byte[] salt = UserPasswordUtil.getSalt();
         byte[] passwordHash = UserPasswordUtil.hashPassword(userModel.getPassword(), salt);
         userModel.setPasswordSalt(salt, passwordHash);
