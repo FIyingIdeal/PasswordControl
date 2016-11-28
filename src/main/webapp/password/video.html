@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>视频播放</title>
+    <link href="../css/video.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="bad-video">
+        <!-- webkit-playsinline ： 在ios中假如此属性，可以关闭自动全屏播放-->
+        <!--object-fit:fill : 视频充满video容器的大小-->
+        <video webkit-playsinline poster="../img/play.png">
+            <source src="../video/1.mp4" type="video/mp4">
+            <p>设备不支持video</p>
+        </video>
+        <!--<img class="vplay" src="../img/play.png">-->
+        <!--<div class="controls">
+            <div>
+                <div class="progressBar">
+                    <div class="timeBar"></div>
+                </div>
+            </div>
+            <div><span class="current">00:00</span>/<span class="duration">00:00</span></div>
+            <div><span class="fill">全屏</span></div>
+        </div>-->
+    </div>
+    <script type="text/javascript" src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/video.js"></script>
+    <script>
+        var v = mui.bvd();
+        v.test();
+    </script>
+</body>
+</html>

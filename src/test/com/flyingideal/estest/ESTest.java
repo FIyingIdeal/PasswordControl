@@ -35,6 +35,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
+import javax.management.Query;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -433,7 +434,7 @@ public class ESTest {
      */
     @Test
     public void matchQuery() {
-        QueryBuilder qb = QueryBuilders.matchQuery("user", "yanchao");
+        QueryBuilder qb = QueryBuilders.matchQuery("message", "保时");
         SearchResponse response = getESClient().prepareSearch()
                 .setQuery(qb).get();
         System.out.println(response.toString());
@@ -718,4 +719,45 @@ public class ESTest {
 
 
     /////-----Compound Query：复合查询
+
+    //Constant Score Query:
+    @Test
+    public void constantScoreQuery() {
+        QueryBuilder qb = QueryBuilders.constantScoreQuery(
+                QueryBuilders.termQuery("user", "yanchao")
+        );
+    }
+
+    //Bool Query :
+    /**
+     *POST /_search
+     {
+         "query": {
+             "bool": {
+                "must": {
+                    "term": {"message": "马"}
+                },
+                 "should":{
+                     "range": {
+                        "age": {"gte": 20,"lte": 30}
+                     }
+                 },
+                 "must_not": {
+                    "term": {"age" : 27}
+                 }
+            }
+         }
+     }
+     */
+    @Test
+    public void boolQuery() {
+        QueryBuilder qb = QueryBuilders.boolQuery()
+                .must(QueryBuilders.termQuery("message", "宝"))          //message必须包含“宝”
+                //.must(QueryBuilders.termQuery("name", "yanghao"))
+                .should(QueryBuilders.rangeQuery("age").gte(20).lte(30))    //  20≤age≤30
+                .mustNot(QueryBuilders.termQuery("age", 27));               //  age != 27
+        SearchResponse response = getESClient().prepareSearch()
+                .setQuery(qb).get();
+        System.out.println(response.toString());
+    }
 }
