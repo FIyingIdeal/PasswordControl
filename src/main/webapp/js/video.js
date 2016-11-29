@@ -8,8 +8,10 @@
             that.video = document.querySelector(dom || 'video');
             that.vRoom = that.video.parentNode;
             that.vButton = document.querySelector('button');
+            that.body = document.querySelector('body');
             that.initEm();
             that.initEvent();
+            that.getVideoList();
         })
     };
 
@@ -25,6 +27,11 @@
         this.vC.classList.add('controls');
         this.vC.innerHTML = '<div><div class="progressBar"><div class="timeBar"></div></div></div><div><span class="current">00:00</span>/<span class="duration">00:00</span></div><div><span class="fill">全屏</span></div>';
         this.vRoom.appendChild(this.vC);
+
+        this.vVideoList = document.createElement("div");
+        this.vVideoList.classList.add('videoList');
+        this.vVideoList.innerHTML = '<ul class="videos"></ul>';
+        this.body.appendChild(this.vVideoList);
     };
 
     pro.initEvent = function() {
@@ -91,9 +98,34 @@
 
         that.vButton.addEventListener('click', function(e) {
             //console.log('click');
-            that.video.src = 'file:///F:/2.mp4';
+            //that.video.src = 'file:///F:/2.mp4';
+            $.get('/video/pathes', function(data) {
+                var innerhtml = '';
+                for (var i = 0; i < data.length; i++) {
+                    innerhtml += '<li onclick=playVideo("' + data[i] + '")>' + data[i] + '</li>';
+                }
+                that.body.querySelector('.videos').innerHTML = innerhtml;
+            });
         })
     };
+
+    pro.getVideoList = function() {
+        var that = this;
+        //this.vVideoList.querySelector('ul').innerHTML = '<li onclick="playVideo()">123</li>';
+        $.get('/video/pathes', function(data) {
+            var innerhtml = '';
+            for (var i = 0; i < data.length; i++) {
+                innerhtml += '<li onclick=playVideo("' + data[i] + '")>' + data[i] + '</li>';
+            }
+            that.body.querySelector('.videos').innerHTML = innerhtml;
+        });
+    };
+
+    playVideo = function(data) {
+        //console.log(data);
+        //this.video.src = 'file:///' + data;
+        document.querySelector('source').src = 'file:///' + data;
+    }
 
     pro.test = function(){
         console.log(this.dom)
