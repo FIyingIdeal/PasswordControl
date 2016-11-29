@@ -7,6 +7,7 @@
         $.ready(function() {
             that.video = document.querySelector(dom || 'video');
             that.vRoom = that.video.parentNode;
+            that.vButton = document.querySelector('button');
             that.initEm();
             that.initEvent();
         })
@@ -87,6 +88,11 @@
         this.video.addEventListener('swipeleft', function(e) {
             this.currentTime -= 5;
         });
+
+        that.vButton.addEventListener('click', function(e) {
+            //console.log('click');
+            that.video.src = 'file:///F:/2.mp4';
+        })
     };
 
     pro.test = function(){
