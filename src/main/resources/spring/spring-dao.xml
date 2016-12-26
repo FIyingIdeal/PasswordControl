@@ -6,10 +6,10 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     <context:property-placeholder location="classpath:system.properties"/>
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>
+        <property name="url" value="${jdbc.mysql.url}"/>
+        <property name="username" value="${jdbc.mysql.username}"/>
+        <property name="password" value="${jdbc.mysql.password}"/>
     </bean>
 
     <bean id="OracleDataSouece" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
