@@ -7,8 +7,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 /**
  * Created by Administrator on 2016/2/3.
  */
@@ -25,7 +23,7 @@ public class UserService {
     }
 
     public UserModel login(UserModel userModel) {
-        UserModel dbUserModel = userMapper.findUserByUserName(userModel.getUserName());
+        UserModel dbUserModel = userMapper.findUserByUsername(userModel.getUserName());
         if (dbUserModel != null && isPasswordValid(dbUserModel, userModel.getPassword())) {
             return dbUserModel;
         }
@@ -47,5 +45,9 @@ public class UserService {
             return false;
         }
         return UserPasswordUtil.validatePassword(password, passwordSalt, passwordHash);
+    }
+
+    public UserModel findUserByUsername(String userName) {
+        return userMapper.findUserByUsername(userName);
     }
 }

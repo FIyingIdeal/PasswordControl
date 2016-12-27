@@ -25,7 +25,7 @@ public interface UserMapper {
      * @param userName
      * @return
      */
-    UserModel findUserByUserName(String userName);
+    UserModel findUserByUsername(String username);
 
     UserModel getUserByUserId(int userId);
 }
