@@ -47,4 +47,14 @@ public class UserModelTest {
         UserModel userModel = userMapper.getUserByUserId(2);
         System.out.println(userModel.toString());
     }
+
+    @Test
+    public void getPasswordTest() {
+        String search = "%yan%";
+        String orderby = "password";
+        List<UserModel> allUserModels = userMapper.getPasswordTest(search,orderby);
+        for (UserModel userModel : allUserModels) {
+            System.out.println(userModel.getUserName()+ "," + userModel.getPassword());
+        }
+    }
 }

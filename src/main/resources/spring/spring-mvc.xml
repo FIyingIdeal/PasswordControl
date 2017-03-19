@@ -6,6 +6,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--WebSocket配置，需要在Spring MVC中配置，如果配置在Spring中将存在异常-->
+    <import resource="spring-websocket.xml"/>
+
     <!--controller注解支持-->
     <context:component-scan base-package="com.flyingideal.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>

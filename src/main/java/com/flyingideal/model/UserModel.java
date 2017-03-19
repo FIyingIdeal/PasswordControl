@@ -5,6 +5,7 @@ import org.apache.commons.codec.binary.Base64;
 /**
  * Created by Administrator on 2015/12/3.
  */
+@Deprecated
 public class UserModel {
     private int userId;
     private String userName;

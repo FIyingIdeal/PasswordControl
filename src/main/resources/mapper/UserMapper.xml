@@ -24,4 +24,8 @@
     <select id="getUserByUserId" parameterType="int" resultType="com.flyingideal.model.UserModel">
         SELECT * FROM user where userId = #{userId}
     </select>
+
+    <select id="getPasswordTest" resultType="com.flyingideal.model.UserModel">
+        SELECT * FROM user WHERE username like #{username}
+    </select>
 </mapper>
