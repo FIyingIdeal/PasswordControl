@@ -32,7 +32,7 @@ public class UserModelTest {
         System.out.println(userMapper.getCount());
     }
 
-    @Test
+    /*@Test
     public void addUserTest() {
         UserModel userModel = new UserModel();
         userModel.setUserName("test");
@@ -40,7 +40,7 @@ public class UserModelTest {
         userModel.setComment("test");
         int addNum = userMapper.addUser(userModel);
         System.out.println("成功插入" + addNum + "名用户！");
-    }
+    }*/
 
     @Test
     public void getUserByUserId() {

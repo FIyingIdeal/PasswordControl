@@ -10,8 +10,8 @@
 
     <bean id="credentialsMatcher" class="com.flyingideal.security.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager"/>
-        <property name="hashIterations" value="2"/>
-        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="${password.hashIterations}"/>
+        <property name="hashAlgorithmName" value="${password.algorithmName}"/>
         <property name="storedCredentialsHexEncoded" value="true"/>
     </bean>
 
@@ -41,7 +41,7 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login.html"/>
+        <property name="loginUrl" value="/login"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
@@ -54,7 +54,7 @@
                 /img/** = anon
                 /js/** = anon
                 /login = authc
-                /logout = logout
+                /logout = anon
                 /** = user
             </value>
         </property>

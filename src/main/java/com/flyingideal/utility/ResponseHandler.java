@@ -9,6 +9,7 @@ import java.io.IOException;
 /**
  * Created by Administrator on 2016/11/29.
  */
+@Deprecated
 public class ResponseHandler {
 
     public static void responseWithSuccessJson(HttpServletResponse response) {

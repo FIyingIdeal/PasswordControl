@@ -1,5 +1,6 @@
 package com.flyingideal.controller;
 
+import com.flyingideal.model.User;
 import com.flyingideal.model.UserModel;
 import com.flyingideal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,17 @@ public class UserController {
 
     @RequestMapping(value = "/adduser", method = RequestMethod.PUT)
     @ResponseBody
-    public Object addUser(@RequestBody UserModel userModel) {
+    public Object addUser(@RequestBody User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("status", false);
-        if (userService.addUser(userModel) > 0) {
+        if (userService.addUser(user) > 0) {
             result.put("status", true);
         }
         return result;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/login", method = RequestMethod.POST)
+    //@ResponseBody
     public ModelAndView login(/*@RequestBody UserModel userModel*/HttpServletRequest request, HttpSession session) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("status", true);

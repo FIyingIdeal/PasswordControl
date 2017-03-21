@@ -9,6 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * Created by Administrator on 2016/2/3.
  */
+@Deprecated
 public class UserPasswordUtil {
     private static final int SALT_LENGTH = 16;
     private static final int ITERATION_COUNT = 1000;

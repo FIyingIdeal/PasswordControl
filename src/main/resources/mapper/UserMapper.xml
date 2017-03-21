@@ -4,7 +4,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.flyingideal.dao.UserMapper">
-    <resultMap id="User" type="com.flyingideal.model.UserModel"/>
+    <resultMap id="User" type="com.flyingideal.model.User">
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="locked" column="locked"/>
+        <result property="source" column="source"/>
+        <result property="sourceUserName" column="source_username"/>
+        <result property="organizationId" column="organization_id"/>
+        <result property="email" column="email"/>
+        <result property="telphone" column="telphone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
     <select id="getAllUser" resultMap="User">
         SELECT * FROM user
     </select>
@@ -13,8 +25,9 @@
         SELECT count(1) FROM  user
     </select>
 
-    <insert id="addUser" parameterType="com.flyingideal.model.UserModel">
-        INSERT INTO user (username, password, comment, passwordSalt) VALUE (#{userName}, #{password}, #{comment}, #{passwordSalt})
+    <insert id="addUser" parameterType="com.flyingideal.model.User">
+        INSERT INTO t_user (username, password, salt, locked, source, source_username, organization_id, email, telphone, gmt_create, gmt_modified)
+        VALUE (#{username}, #{password}, #{salt}, #{locked}, #{source}, #{sourceUserName}, #{organizationId}, #{email}, #{telphone}, #{gmtCreate}, #{gmtModified})
     </insert>
 
     <select id="findUserByUserName" parameterType="String" resultType="com.flyingideal.model.UserModel">

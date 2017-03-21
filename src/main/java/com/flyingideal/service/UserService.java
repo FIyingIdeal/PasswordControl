@@ -1,6 +1,7 @@
 package com.flyingideal.service;
 
 import com.flyingideal.dao.UserMapper;
+import com.flyingideal.model.User;
 import com.flyingideal.model.UserModel;
 import com.flyingideal.utility.UserPasswordUtil;
 import org.apache.commons.codec.binary.Base64;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordHelper passwordHelper;
 
-    public int addUser(UserModel userModel) {
-        byte[] salt = UserPasswordUtil.getSalt();
-        byte[] passwordHash = UserPasswordUtil.hashPassword(userModel.getPassword(), salt);
-        userModel.setPasswordSalt(salt, passwordHash);
-        return userMapper.addUser(userModel);
+    public int addUser(User user) {
+        passwordHelper.encryptPassword(user);
+        return userMapper.addUser(user);
     }
 
     public UserModel login(UserModel userModel) {

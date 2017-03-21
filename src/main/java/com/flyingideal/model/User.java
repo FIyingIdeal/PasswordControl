@@ -1,5 +1,7 @@
 package com.flyingideal.model;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -132,4 +134,5 @@ public class User implements Serializable {
     public void setRoleIds(List<Integer> roleIds) {
         this.roleIds = roleIds;
     }
+
 }
