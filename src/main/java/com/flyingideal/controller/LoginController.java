@@ -1,9 +1,11 @@
 package com.flyingideal.controller;
 
+import com.flyingideal.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,14 +21,14 @@ import java.util.Objects;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = "/login")
-    @ResponseBody
-    public Map<String, Object> login(@RequestParam String username, @RequestParam String password) {
+    //@RequestMapping(value = "/login")
+    //@ResponseBody
+    public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
         Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             currentUser.login(token);
         } catch (UnknownAccountException e) {
