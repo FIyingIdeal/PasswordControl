@@ -20,9 +20,16 @@ public class UserServiceTest {
     @Test
     public void addUser() {
         User user = new User();
-        user.setUsername("admin1");
-        user.setPassword("123456");
+        user.setUsername("admin3");
+        user.setPassword("111111");
         int num = userService.addUser(user);
         System.out.println(num);
+    }
+
+    @Test
+    public void findUserByUsername() {
+        String username = "admin";
+        User user = userService.findUserByUsername(username);
+        System.out.println(user);
     }
 }

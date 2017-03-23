@@ -1,5 +1,6 @@
 package com.flyingideal.security.realm;
 
+import com.flyingideal.model.User;
 import com.flyingideal.model.UserModel;
 import com.flyingideal.service.UserService;
 import org.apache.shiro.authc.*;
@@ -22,17 +23,17 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
         String username = (String)authenticationToken.getPrincipal();
-        UserModel user = userService.findUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         if(user == null) {
             throw new UnknownAccountException();
         }
-        /*if (Boolean.TRUE.equals(user.getLocked)) {
+        if (Boolean.TRUE.equals(user.getLocked())) {
             throw new LockedAccountException();
-        }*/
+        }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 username,
                 user.getPassword(),
-                ByteSource.Util.bytes(user.getPasswordSalt()),
+                ByteSource.Util.bytes(user.getSalt()),
                 getName()
         );
         return authenticationInfo;

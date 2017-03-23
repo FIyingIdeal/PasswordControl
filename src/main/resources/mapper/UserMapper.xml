@@ -30,12 +30,12 @@
         VALUE (#{username}, #{password}, #{salt}, #{locked}, #{source}, #{sourceUserName}, #{organizationId}, #{email}, #{telphone}, #{gmtCreate}, #{gmtModified})
     </insert>
 
-    <select id="findUserByUserName" parameterType="String" resultType="com.flyingideal.model.UserModel">
-        SELECT * FROM user where userName = #{userName}
+    <select id="findUserByUsername" parameterType="String" resultMap="User">
+        SELECT username,password,salt,locked,source,source_username,organization_id,email,telphone,gmt_create,gmt_modified FROM t_user where username = #{username}
     </select>
 
-    <select id="getUserByUserId" parameterType="int" resultType="com.flyingideal.model.UserModel">
-        SELECT * FROM user where userId = #{userId}
+    <select id="getUserByUserId" parameterType="int" resultType="com.flyingideal.model.User">
+        SELECT username,password,salt,locked,source,source_username,organization_id,email,telphone,gmt_create,gmt_modified FROM t_user where userId = #{id}
     </select>
 
     <select id="getPasswordTest" resultType="com.flyingideal.model.UserModel">

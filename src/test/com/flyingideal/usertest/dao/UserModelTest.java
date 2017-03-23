@@ -1,6 +1,7 @@
 package com.flyingideal.usertest.dao;
 
 import com.flyingideal.dao.UserMapper;
+import com.flyingideal.model.User;
 import com.flyingideal.model.UserModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +45,7 @@ public class UserModelTest {
 
     @Test
     public void getUserByUserId() {
-        UserModel userModel = userMapper.getUserByUserId(2);
+        User userModel = userMapper.getUserByUserId(2);
         System.out.println(userModel.toString());
     }
 

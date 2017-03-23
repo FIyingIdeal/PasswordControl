@@ -27,9 +27,9 @@ public interface UserMapper {
      * @param username
      * @return
      */
-    UserModel findUserByUsername(String username);
+    User findUserByUsername(String username);
 
-    UserModel getUserByUserId(int userId);
+    User getUserByUserId(int userId);
 
     List<UserModel> getPasswordTest(@Param("username")String username,
                                     @Param("orderby") String orderby);

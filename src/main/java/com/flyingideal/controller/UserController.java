@@ -40,7 +40,7 @@ public class UserController {
 
     //@RequestMapping(value = "/login", method = RequestMethod.POST)
     //@ResponseBody
-    public ModelAndView login(/*@RequestBody UserModel userModel*/HttpServletRequest request, HttpSession session) {
+    /*public ModelAndView login(*//*@RequestBody UserModel userModel*//*HttpServletRequest request, HttpSession session) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("status", true);
 
@@ -56,5 +56,5 @@ public class UserController {
         }
         ModelAndView modelAndView = new ModelAndView("/bs_password/index.html");
         return modelAndView;
-    }
+    }*/
 }

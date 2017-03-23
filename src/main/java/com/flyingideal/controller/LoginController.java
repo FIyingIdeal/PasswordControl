@@ -4,6 +4,8 @@ import com.flyingideal.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,8 @@ import java.util.Objects;
 @Controller
 public class LoginController {
 
-    //@RequestMapping(value = "/login")
-    //@ResponseBody
+    @RequestMapping(value = "/loginValid")
+    @ResponseBody
     public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
@@ -31,6 +33,8 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             currentUser.login(token);
+            result.put("success", true);
+            result.put("message", "登录成功");
         } catch (UnknownAccountException e) {
             result.put("message", "用户名/密码错误");
         } catch (IncorrectCredentialsException e) {
@@ -40,8 +44,6 @@ public class LoginController {
         } catch (AuthenticationException e) {
             result.put("message", "没有授权的账号");
         }
-        result.put("success", true);
-        result.put("message", "登录成功");
         return result;
         //return "/login.html";
     }
