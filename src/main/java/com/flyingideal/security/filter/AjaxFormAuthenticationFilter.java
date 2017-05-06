@@ -52,6 +52,7 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", true);
             responseMap.put("message", "Login Success");
+            responseMap.put("username", subject.getPrincipal());
             String result = BeanJsonConverter.bean2Json(responseMap);
             httpServletResponse.setCharacterEncoding("UTF-8");
             PrintWriter out = httpServletResponse.getWriter();
