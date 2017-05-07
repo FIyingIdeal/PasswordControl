@@ -5,10 +5,7 @@ import com.flyingideal.model.UserModel;
 import com.flyingideal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,13 +24,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/adduser", method = RequestMethod.PUT)
+    @CrossOrigin(origins = {"http://localhost:3300", "null"})
+    @PutMapping(value = "/regist")
     @ResponseBody
     public Object addUser(@RequestBody User user) {
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("status", false);
+        result.put("success", false);
         if (userService.addUser(user) > 0) {
-            result.put("status", true);
+            result.put("success", true);
         }
         return result;
     }
