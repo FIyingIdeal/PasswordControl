@@ -24,12 +24,12 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <mvc:cors>
+    <!--<mvc:cors>
         <mvc:mapping path="/**"
                      allowed-origins="*"
                      allowed-methods="GET, PUT, POST"
         />
-    </mvc:cors>
+    </mvc:cors>-->
     
     <mvc:default-servlet-handler/>
 

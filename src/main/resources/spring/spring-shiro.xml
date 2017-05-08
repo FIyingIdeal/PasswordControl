@@ -45,7 +45,7 @@
         <property name="loginUrl" value="/loginValid"/>
     </bean>
 
-    <bean id="crosFilter" class="com.flyingideal.security.filter.CROSFilter"></bean>
+    <bean id="corsFilter" class="com.flyingideal.security.filter.CORSFilter"></bean>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -55,7 +55,7 @@
             <util:map>
                 <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
                 <entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>
-                <entry key="cros" value-ref="crosFilter"/>
+                <entry key="cors" value-ref="corsFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -64,10 +64,7 @@
                 /css/** = anon
                 /img/** = anon
                 /js/** = anon
-                /loginValid = authc
-                /user/regist = anon
                 /logout = anon
-                /** = user
             </value>
         </property>
     </bean>

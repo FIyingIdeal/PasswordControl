@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by Administrator on 2017/5/7.
  */
-public class CROSFilter extends AccessControlFilter {
+public class CORSFilter extends AccessControlFilter {
 
 
     @Override

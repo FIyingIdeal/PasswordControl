@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Administrator on 2017/3/23.
@@ -24,7 +23,7 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
 
     private static final String AJAXREQUESTHEADER = "XMLHttpRequest";
 
-    private static final Logger log = LoggerFactory.getLogger(AjaxFormAuthenticationFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFormAuthenticationFilter.class);
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
@@ -45,6 +44,8 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+        System.out.println("httpServletRequest header:" +  httpServletRequest.getHeader("X-Requested-With"));
 
         if (!AJAXREQUESTHEADER.equalsIgnoreCase(httpServletRequest.getHeader("X-Requested-With"))) {
             issueSuccessRedirect(request, response);
@@ -75,8 +76,8 @@ public class AjaxFormAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         if (!AJAXREQUESTHEADER.equalsIgnoreCase(((HttpServletRequest)request).getHeader("X-Requested-With"))) {
-            if (log.isDebugEnabled()) {
-                log.debug( "Authentication exception", e );
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug( "Authentication exception", e );
             }
             setFailureAttribute(request, e);
             return true;
