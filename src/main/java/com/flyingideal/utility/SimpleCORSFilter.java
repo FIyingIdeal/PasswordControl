@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author hiynn
+ * @author
  * @Date 2016年6月23日下午2:25:05
  * 解决跨域所需要的filter
  */
@@ -29,8 +29,6 @@ public class SimpleCORSFilter implements Filter {
 
         HttpServletResponse resp = (HttpServletResponse)response;
 
-//        HttpServletRequest req = (HttpServletRequest)request;
-
         resp.setHeader("Access-Control-Allow-Origin", "*");
 
         resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
@@ -38,7 +36,6 @@ public class SimpleCORSFilter implements Filter {
 //		resp.setHeader("Access-Control-Max-Age", "3600");
 
         resp.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-
 
         chain.doFilter(request, response);
 

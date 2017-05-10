@@ -24,13 +24,24 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <!--<mvc:cors>
+    <!--使用Spring提供的CORS进行跨域请求处理
+    <mvc:cors>
         <mvc:mapping path="/**"
                      allowed-origins="*"
                      allowed-methods="GET, PUT, POST"
         />
-    </mvc:cors>-->
-    
+    </mvc:cors>
+    -->
+
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.flyingideal.interceptor.CORSInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
     <mvc:default-servlet-handler/>
 
     <!--SpringMVC上传文件需要MultipartResolver处理器-->

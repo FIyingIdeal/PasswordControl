@@ -7,10 +7,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Administrator on 2017/3/18.
@@ -18,17 +16,15 @@ import java.util.Objects;
 @Controller
 public class LoginController {
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping(value = "/loginValid")
     @ResponseBody
-    public Map<String, Object> login(@RequestParam String username, @RequestParam String password) {
-    //public Map<String, Object> login(User user) {
+    public Map<String, Object> login(User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
         Subject currentUser = SecurityUtils.getSubject();
-        //UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             currentUser.login(token);
             result.put("success", true);
@@ -43,6 +39,5 @@ public class LoginController {
             result.put("message", "没有授权的账号");
         }
         return result;
-        //return "/login.html";
     }
 }
