@@ -24,22 +24,22 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <!--使用Spring提供的CORS进行跨域请求处理
+    <!--使用Spring提供的CORS进行跨域请求处理-->
     <mvc:cors>
         <mvc:mapping path="/**"
                      allowed-origins="*"
                      allowed-methods="GET, PUT, POST"
         />
     </mvc:cors>
-    -->
 
-
+    <!-- 使用interceptor进行跨域请求处理
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="com.flyingideal.interceptor.CORSInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+    -->
 
 
     <mvc:default-servlet-handler/>

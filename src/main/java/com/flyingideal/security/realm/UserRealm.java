@@ -1,7 +1,6 @@
 package com.flyingideal.security.realm;
 
 import com.flyingideal.model.User;
-import com.flyingideal.model.UserModel;
 import com.flyingideal.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
