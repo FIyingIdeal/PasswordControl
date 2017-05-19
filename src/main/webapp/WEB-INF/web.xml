@@ -16,12 +16,15 @@
         <param-value>classpath:spring.xml</param-value>
     </context-param>
 
+    <!--Spring配置，该listener会在整个Web应用启动时运行一次，并初始化传统意义上的Spring容器-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <!-- Spring集成Web环境通用配置结束 -->
 
-    <!--<filter>
+    <!--基于Filter的跨域资源访问（CORS）处理方案，SpringMVC 4.2+的可以采用SpringMVC提供的CORS解决方案，更多资料请参考：
+        https://github.com/FIyingIdeal/PasswordControl/wiki/Spring-CORS%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3
+    <filter>
         <filter-name>corsFilter</filter-name>
         <filter-class>com.flyingideal.utility.SimpleCORSFilter</filter-class>
     </filter>
@@ -29,7 +32,8 @@
     <filter-mapping>
         <filter-name>corsFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
+    -->
 
     <!--Spring WEB MVC 提供了org.springframework.web.filter.CharacterEncodingFilter
             用于解决POST请求方式造成的中文乱码问题-->

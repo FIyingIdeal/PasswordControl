@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/9.
@@ -38,5 +40,12 @@ public class UploadFileController {
         }
         //Todo:返回值封装类（暂时未定义）处理
         return "文件上传成功";
+    }
+
+    //使用MultipartHttpServletRequest接收
+    public Object uploadFile1(MultipartHttpServletRequest multipartHttpServletRequest) {
+        List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
+        //Todo:处理逻辑
+        return null;
     }
 }

@@ -4,7 +4,8 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--WebSocket配置，需要在Spring MVC中配置，如果配置在Spring中将存在异常-->
     <import resource="spring-websocket.xml"/>
@@ -41,10 +42,11 @@
     </mvc:interceptors>
     -->
 
-
     <mvc:default-servlet-handler/>
 
     <!--SpringMVC上传文件需要MultipartResolver处理器-->
+    <!--CommonsMultipartResolver使用commons Fileupload来处理multipart请求，需要额外的jar包
+        Spring还提供了一个StandardServletMultipartResolver来处理multipart请求，但是基于Servlet 3.0的，需要容器支持Servlet 3.0-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
         <!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
