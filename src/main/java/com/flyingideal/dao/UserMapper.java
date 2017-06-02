@@ -23,12 +23,24 @@ public interface UserMapper {
     int addUser(User user);
 
     /**
-     * find user by username
+     * get all user information(include password and salt) by username
      * @param username
      * @return
      */
-    User findUserByUsername(String username);
+    User getUserByUsername(String username);
 
+    /**
+     * 通过username获取用户的公开信息（不包括用户的密码和salt）
+     * @param username
+     * @return
+     */
+    User getUserPublicInfoByUsername(String username);
+
+    /**
+     * 通过userId获取用户所有信息（包括密码和salt）
+     * @param userId
+     * @return
+     */
     User getUserByUserId(int userId);
 
     List<UserModel> getPasswordTest(@Param("username")String username,

@@ -29,7 +29,7 @@ public class UserServiceTest {
     @Test
     public void findUserByUsername() {
         String username = "admin";
-        User user = userService.findUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         System.out.println(user);
     }
 }

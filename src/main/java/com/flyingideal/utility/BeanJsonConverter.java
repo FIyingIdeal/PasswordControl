@@ -49,11 +49,7 @@ public class BeanJsonConverter {
      * @throws IOException
      */
     public static Object json2Bean(String jsonStr) throws IOException {
-        if (jsonStr == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(jsonStr, Object.class);
+        return json2Bean(jsonStr, Object.class);
     }
 
 }

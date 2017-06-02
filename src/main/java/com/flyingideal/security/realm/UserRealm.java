@@ -22,7 +22,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
         String username = (String)authenticationToken.getPrincipal();
-        User user = userService.findUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         if(user == null) {
             throw new UnknownAccountException();
         }

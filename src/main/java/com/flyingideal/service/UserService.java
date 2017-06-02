@@ -2,9 +2,6 @@ package com.flyingideal.service;
 
 import com.flyingideal.dao.UserMapper;
 import com.flyingideal.model.User;
-import com.flyingideal.model.UserModel;
-import com.flyingideal.utility.UserPasswordUtil;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +24,16 @@ public class UserService {
         return userMapper.addUser(user);
     }
 
-    public User findUserByUsername(String userName) {
-        return userMapper.findUserByUsername(userName);
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
+    public User getUserPublicInfoByUsername(String username) {
+        return userMapper.getUserPublicInfoByUsername(username);
     }
 
     /*public User login(UserModel userModel) {
-        User dbUserModel = userMapper.findUserByUsername(userModel.getUserName());
+        User dbUserModel = userMapper.getUserByUsername(userModel.getUserName());
         if (dbUserModel != null && isPasswordValid(dbUserModel, userModel.getPassword())) {
             return dbUserModel;
         }

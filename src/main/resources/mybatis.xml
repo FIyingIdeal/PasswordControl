@@ -8,5 +8,6 @@
     
     <typeAliases>
         <typeAlias type="com.flyingideal.model.BlurredPassword" alias="blurredPassword"/>
+        <typeAlias type="com.flyingideal.model.User" alias="User"/>
     </typeAliases>
 </configuration>

@@ -1,8 +1,10 @@
 package com.flyingideal.model;
 
-import org.apache.commons.codec.binary.Base64;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +21,9 @@ public class User implements Serializable {
     private String sourceUserName;
     private Integer organizationId;
     private String email;
-    private String telphone;
+    private String telephone;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
     private List<Integer> roleIds;
@@ -103,12 +107,20 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getTelphone() {
-        return telphone;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setTelphone(String telphone) {
-        this.telphone = telphone;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public LocalDateTime getGmtCreate() {
@@ -147,7 +159,8 @@ public class User implements Serializable {
                 ", sourceUserName='" + sourceUserName + '\'' +
                 ", organizationId=" + organizationId +
                 ", email='" + email + '\'' +
-                ", telphone='" + telphone + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", birthday=" + birthday +
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", roleIds=" + roleIds +

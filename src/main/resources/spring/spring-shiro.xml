@@ -55,7 +55,7 @@
             <util:map>
                 <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
                 <entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>
-                <entry key="cors" value-ref="corsFilter"/>
+                <!--<entry key="cors" value-ref="corsFilter"/>-->
             </util:map>
         </property>
         <property name="filterChainDefinitions">
