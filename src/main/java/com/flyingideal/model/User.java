@@ -1,6 +1,8 @@
 package com.flyingideal.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.flyingideal.jsonview.UserJsonView;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -12,20 +14,31 @@ import java.util.List;
  * Created by Administrator on 2017/3/18.
  */
 public class User implements Serializable {
+    @JsonView(UserJsonView.class)
     private Long id;
+    @JsonView(UserJsonView.class)
     private String username;
     private String password;
     private String salt;
+    @JsonView(UserJsonView.class)
     private Boolean locked;
+    @JsonView(UserJsonView.class)
     private Integer source;
+    @JsonView(UserJsonView.class)
     private String sourceUserName;
+    @JsonView(UserJsonView.class)
     private Integer organizationId;
+    @JsonView(UserJsonView.class)
     private String email;
+    @JsonView(UserJsonView.class)
     private String telephone;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonView(UserJsonView.class)
     private LocalDate birthday;
+    @JsonView(UserJsonView.class)
     private LocalDateTime gmtCreate;
+    @JsonView(UserJsonView.class)
     private LocalDateTime gmtModified;
+    @JsonView(UserJsonView.class)
     private List<Integer> roleIds;
 
     public User() {}

@@ -1,5 +1,7 @@
 package com.flyingideal.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.flyingideal.jsonview.UserJsonView;
 import com.flyingideal.model.User;
 import com.flyingideal.service.UserService;
 import io.swagger.annotations.Api;
@@ -28,6 +30,7 @@ public class UserController {
     @ApiOperation(value = "用户登录", httpMethod = "POST", produces = "application/json")
     @ApiResponse(code = 200, message = "login success", response = User.class)
     @PostMapping(value = "/login")
+    @JsonView(UserJsonView.class)
     public Map<String, Object> login(User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
@@ -35,7 +38,7 @@ public class UserController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             currentUser.login(token);
-            User userInfo = userService.getUserPublicInfoByUsername(user.getUsername());
+            User userInfo = userService.getUserByUsername(user.getUsername());
             result.put("success", true);
             result.put("message", "登录成功");
             result.put("data", userInfo);
