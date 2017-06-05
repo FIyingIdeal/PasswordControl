@@ -11,7 +11,7 @@
     <import resource="spring-websocket.xml"/>
 
     <!--controller注解支持-->
-    <context:component-scan base-package="com.flyingideal.controller, com.flyingideal.api.controller" use-default-filters="false">
+    <context:component-scan base-package="com.flyingideal.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
