@@ -201,6 +201,12 @@
           <artifactId>jackson-databind</artifactId>
           <version>${jackson.version}</version>
       </dependency>
+      <!--Jackson处理java8中LocalDate等日期时间自动转换相关操作时所需的jar包-->
+      <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>${jackson.version}</version>
+      </dependency>
 
       <!--Gson处理json-->
       <dependency>

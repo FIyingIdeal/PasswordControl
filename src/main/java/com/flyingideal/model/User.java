@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,10 +34,14 @@ public class User implements Serializable {
     @JsonView(UserJsonView.class)
     private String telephone;
     @JsonView(UserJsonView.class)
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  //使用@DateTimeFormat对java8中的LocalDate等日期、时间格式进行格式化的时候需要添加相关的jar包
+    @JsonFormat(pattern = "yyyy-MM-dd")               //使用jackson的@JsonFormat进行日期的自动转换，在此可以代替@DateTimeFormat标签
     private LocalDate birthday;
     @JsonView(UserJsonView.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreate;
     @JsonView(UserJsonView.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtModified;
     @JsonView(UserJsonView.class)
     private List<Integer> roleIds;
