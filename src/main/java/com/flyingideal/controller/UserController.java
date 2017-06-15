@@ -11,8 +11,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class UserController {
     @ApiResponse(code = 200, message = "login success", response = User.class)
     @PostMapping(value = "/login")
     @JsonView(UserJsonView.class)
-    public Map<String, Object> login(User user) {
+    public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
         Subject currentUser = SecurityUtils.getSubject();
@@ -72,6 +74,12 @@ public class UserController {
     private boolean checkUsername(String username) {
         User user = userService.getUserPublicInfoByUsername(username);
         return user == null ? true : false;
+    }
+
+    @GetMapping(value = "/{date}")
+    public String pathVariableDateFormatterTest(@PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        System.out.println(date);
+        return "1";
     }
 
 }
