@@ -2,6 +2,8 @@ package com.flyingideal.jsontest.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/3/20.
  */
@@ -12,6 +14,8 @@ public class JacksonBean {
     private int age;
     @JsonProperty("Sex")
     private char sex;
+
+    private Date birthday;
 
     public JacksonBean() {}
 
@@ -45,12 +49,21 @@ public class JacksonBean {
         this.sex = sex;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
-        return "JavaBean{" +
+        return "JacksonBean{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", sex=" + sex +
+                ", birthday=" + birthday +
                 '}';
     }
 }

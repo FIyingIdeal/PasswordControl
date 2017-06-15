@@ -44,7 +44,7 @@ public class JacksonTest {
 
     @Test
     public void json2BeanTest() {
-        String jsonStr = "{\"UserName\":\"yanchao\", \"Age\":23, \"Sex\":\"F\"}";
+        String jsonStr = "{\"UserName\":\"yanchao\", \"Age\":23, \"Sex\":\"F\", \"birthday\":\"2017-06-15\"}";
         JacksonBean bean = json2Bean(jsonStr, JacksonBean.class);
         System.out.println(bean);
 
