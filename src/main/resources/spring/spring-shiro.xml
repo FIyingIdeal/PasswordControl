@@ -42,6 +42,7 @@
     <bean id="ajaxFormAuthenticationFilter" class="com.flyingideal.security.filter.AjaxFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
+        <!--loginUrl可以在这里设置，也可以在ShiroFilterFactoryBean统一设置！-->
         <property name="loginUrl" value="/loginValid"/>
     </bean>
 

@@ -43,4 +43,11 @@ public class UserControllerTest extends AbstractContextControllerTests {
                 get(URI, "2017-06-13")
         ).andExpect(content().string("1"));
     }
+
+    @Test
+    public void pathVariableMapTest() throws Exception {
+        this.mockMvc.perform(
+                get(URI, "mapTest/yanchao/666666")
+        ).andExpect(content().string("2"));
+    }
 }

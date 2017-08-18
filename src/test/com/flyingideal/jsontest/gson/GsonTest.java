@@ -20,7 +20,7 @@ public class GsonTest {
     @Test
     public void json2Bean() {
         Gson gson = new Gson();
-        String jsonStr = "{\"UserName\":\"yanchao\",\"age\":23,\"UserSex\":\"F\"}";
+        String jsonStr = "{\"name\":\"yanchao\",\"age\":23,\"UserSex\":\"F\"}";
         GsonBean bean = gson.fromJson(jsonStr, GsonBean.class);
         System.out.println(bean);
         //GsonBean{username='yanchao', age=23, sex=F}

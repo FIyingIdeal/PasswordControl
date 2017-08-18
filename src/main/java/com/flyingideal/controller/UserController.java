@@ -82,4 +82,9 @@ public class UserController {
         return "1";
     }
 
+    @GetMapping(value = "/mapTest/{username}/{password}")
+    public String pathVariableMapTest(@PathVariable Map<String, String> map) {
+        System.out.println(map);
+        return "2";
+    }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.flyingideal.jsonview.UserJsonView;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/3/18.
  */
+@XmlRootElement
 public class User implements Serializable {
     @JsonView(UserJsonView.class)
     private Long id;
