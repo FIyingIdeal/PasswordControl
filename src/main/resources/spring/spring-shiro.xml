@@ -43,7 +43,7 @@
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <!--loginUrl可以在这里设置，也可以在ShiroFilterFactoryBean统一设置！-->
-        <property name="loginUrl" value="/loginValid"/>
+        <property name="loginUrl" value="/login"/>
     </bean>
 
     <bean id="corsFilter" class="com.flyingideal.security.filter.CORSFilter"></bean>
@@ -55,7 +55,7 @@
         <property name="filters">
             <util:map>
                 <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
-                <entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>
+                <!--<entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>-->
                 <!--<entry key="cors" value-ref="corsFilter"/>-->
             </util:map>
         </property>
@@ -65,6 +65,7 @@
                 /css/** = anon
                 /img/** = anon
                 /js/** = anon
+                /user/login = anon
                 /logout = anon
             </value>
         </property>

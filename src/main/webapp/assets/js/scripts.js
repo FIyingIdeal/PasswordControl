@@ -47,7 +47,7 @@ function login() {
     var loginFlag = verify();
 
     if (loginFlag) {
-        var loginUrl = '/loginValid';
+        var loginUrl = '/user/login';
         $.ajax({
             type: 'POST',
             url: loginUrl,
