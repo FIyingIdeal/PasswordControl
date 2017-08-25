@@ -51,9 +51,9 @@ function login() {
         $.ajax({
             type: 'POST',
             url: loginUrl,
-            data: {"username": username, "password": password},
-            //data: JSON.stringify({"username": username, "password": password}),
-            contentType: "application/json",
+            //data: {"username":username,"password":password},
+            data: JSON.parse('{"username":"' + username + '", "password":"' + password + '"}'),
+            contentType: "application/json;charset=utf-8",
             success: function (e) {
                 console.log("success " + e);
             },

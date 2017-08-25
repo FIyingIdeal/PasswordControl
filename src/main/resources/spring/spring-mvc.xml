@@ -89,14 +89,20 @@
         />
     </mvc:cors>
 
-    <!-- 使用interceptor进行跨域请求处理
+
     <mvc:interceptors>
+        <!-- 使用interceptor进行跨域请求处理
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="com.flyingideal.interceptor.CORSInterceptor"/>
         </mvc:interceptor>
+        -->
+        <mvc:interceptor>
+            <mvc:mapping path="/user/login"/>
+            <bean class = "com.flyingideal.interceptor.RequestInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
-    -->
+
 
     <mvc:default-servlet-handler/>
 
