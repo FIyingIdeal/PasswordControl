@@ -1,11 +1,10 @@
 package com.flyingideal.dao;
 
 import com.flyingideal.model.User;
-import com.flyingideal.model.UserModel;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2015/12/3.
@@ -13,8 +12,17 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
+    /**
+     * 获取用户总数
+     * @return
+     */
     int getCount();
-    List<UserModel> getAllUser();
+
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    List<User> getAllUser();
     /**
      * add user
      * @param user
@@ -43,6 +51,17 @@ public interface UserMapper {
      */
     User getUserByUserId(int userId);
 
-    List<UserModel> getPasswordTest(@Param("username")String username,
-                                    @Param("orderby") String orderby);
+    /**
+     * 根据用户名获取其所有角色
+     * @param username
+     * @return
+     */
+    Set<String> getRoles(String username);
+
+    /**
+     * 根据用户名获取其所有权限
+     * @param username
+     * @return
+     */
+    Set<String> getPermissions(String username);
 }

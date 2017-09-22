@@ -5,7 +5,7 @@
 
     <!-- 缓存管理器 使用Ehcache实现 -->
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache.xml"/>
     </bean>
 
     <bean id="credentialsMatcher" class="com.flyingideal.security.credentials.RetryLimitHashedCredentialsMatcher">
@@ -17,11 +17,17 @@
 
     <bean id="userRealm" class="com.flyingideal.security.realm.UserRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
-        <property name="cachingEnabled" value="false"/>
+        <!--身份、权限的缓存会用到-->
+        <property name="cachingEnabled" value="true"/>
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
     </bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="userRealm"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
@@ -30,33 +36,28 @@
         <property name="arguments" ref="securityManager"/>
     </bean>
 
-    <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
-        <property name="usernameParam" value="username"/>
-        <property name="passwordParam" value="password"/>
-        <property name="loginUrl" value="/loginValid"/>
-        <property name="successUrl" value="/"/>
-    </bean>
-
     <!-- 自定义身份验证过滤器，继承自FormAuthenticationFilter，用于处理ajax登录请求 -->
     <bean id="ajaxFormAuthenticationFilter" class="com.flyingideal.security.filter.AjaxFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <!--loginUrl可以在这里设置，也可以在ShiroFilterFactoryBean统一设置！-->
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/user/login"/>
     </bean>
+
+    <bean id="ajaxRolesAuthorizationFilter" class="com.flyingideal.security.filter.AjaxRolesAuthorizationFilter"/>
 
     <bean id="corsFilter" class="com.flyingideal.security.filter.CORSFilter"></bean>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/user/login"/>
         <property name="filters">
             <util:map>
                 <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
-                <!--<entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>-->
+                <entry key="authc" value-ref="ajaxFormAuthenticationFilter"/>
                 <!--<entry key="cors" value-ref="corsFilter"/>-->
+                <entry key="roles" value-ref="ajaxRolesAuthorizationFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -66,6 +67,7 @@
                 /img/** = anon
                 /js/** = anon
                 /logout = anon
+                /admin/** = authc,roles[admin]
             </value>
         </property>
     </bean>

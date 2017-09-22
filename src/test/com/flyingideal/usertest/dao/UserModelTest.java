@@ -2,7 +2,6 @@ package com.flyingideal.usertest.dao;
 
 import com.flyingideal.dao.UserMapper;
 import com.flyingideal.model.User;
-import com.flyingideal.model.UserModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2015/12/3.
@@ -22,9 +22,9 @@ public class UserModelTest {
 
     @Test
     public void UserTest() {
-        List<UserModel> allUserModels = userMapper.getAllUser();
-        for (UserModel userModel : allUserModels) {
-            System.out.println(userModel.getUserName()+ "," + userModel.getPassword());
+        List<User> allUserModels = userMapper.getAllUser();
+        for (User user : allUserModels) {
+            System.out.println(user.getUsername()+ "," + user.getPassword());
         }
     }
 
@@ -33,29 +33,22 @@ public class UserModelTest {
         System.out.println(userMapper.getCount());
     }
 
-    /*@Test
-    public void addUserTest() {
-        UserModel userModel = new UserModel();
-        userModel.setUserName("test");
-        userModel.setPassword("test");
-        userModel.setComment("test");
-        int addNum = userMapper.addUser(userModel);
-        System.out.println("成功插入" + addNum + "名用户！");
-    }*/
-
     @Test
     public void getUserByUserId() {
-        User userModel = userMapper.getUserByUserId(2);
-        System.out.println(userModel.toString());
+        User user = userMapper.getUserByUserId(2);
+        System.out.println(user.toString());
     }
 
     @Test
-    public void getPasswordTest() {
-        String search = "%yan%";
-        String orderby = "password";
-        List<UserModel> allUserModels = userMapper.getPasswordTest(search,orderby);
-        for (UserModel userModel : allUserModels) {
-            System.out.println(userModel.getUserName()+ "," + userModel.getPassword());
-        }
+    public void getRoles() {
+        Set<String> roles = userMapper.getRoles("admin");
+        System.out.println(roles);
     }
+
+    @Test
+    public void getPermissions() {
+        Set<String> permissions = userMapper.getPermissions("admin");
+        System.out.println(permissions);
+    }
+
 }

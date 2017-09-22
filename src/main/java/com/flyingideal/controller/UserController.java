@@ -11,10 +11,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,22 +36,11 @@ public class UserController {
         result.put("success", false);
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        try {
-            currentUser.login(token);
-            User userInfo = userService.getUserByUsername(user.getUsername());
-            result.put("success", true);
-            result.put("message", "登录成功");
-            result.put("data", userInfo);
-        } catch (UnknownAccountException e) {
-            result.put("message", "用户名/密码错误");
-        } catch (IncorrectCredentialsException e) {
-            result.put("message", "用户名/密码错误");
-        } catch (LockedAccountException e) {
-            result.put("message", "账号被锁定");
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-            result.put("message", "没有授权的账号");
-        }
+        currentUser.login(token);
+        User userInfo = userService.getUserByUsername(user.getUsername());
+        result.put("success", true);
+        result.put("message", "登录成功");
+        result.put("data", userInfo);
         return result;
     }
 
@@ -76,15 +63,14 @@ public class UserController {
         return user == null ? true : false;
     }
 
-    @GetMapping(value = "/{date}")
-    public String pathVariableDateFormatterTest(@PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
-        System.out.println(date);
-        return "1";
+    @GetMapping(value = "/logout")
+    public Object logout() {
+        Subject currentUser = SecurityUtils.getSubject();
+        currentUser.logout();
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", true);
+        result.put("message", "Logout Success!");
+        return result;
     }
 
-    @GetMapping(value = "/mapTest/{username}/{password}")
-    public String pathVariableMapTest(@PathVariable Map<String, String> map) {
-        System.out.println(map);
-        return "2";
-    }
 }

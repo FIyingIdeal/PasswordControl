@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/2/3.
@@ -17,6 +18,11 @@ public class UserService {
     @Autowired
     private PasswordHelper passwordHelper;
 
+    /**
+     * 添加用户 OR 用户注册
+     * @param user
+     * @return
+     */
     public int addUser(User user) {
         passwordHelper.encryptPassword(user);
         user.setGmtCreate(LocalDateTime.now());
@@ -24,36 +30,38 @@ public class UserService {
         return userMapper.addUser(user);
     }
 
+    /**
+     * 根据用户名获取用户用户信息
+     * @param username
+     * @return
+     */
     public User getUserByUsername(String username) {
         return userMapper.getUserByUsername(username);
     }
 
+    /**
+     * 根据用户名获取用户公开信息（不包含用户密码及salt信息）
+     * @param username
+     * @return
+     */
     public User getUserPublicInfoByUsername(String username) {
         return userMapper.getUserPublicInfoByUsername(username);
     }
 
-    /*public User login(UserModel userModel) {
-        User dbUserModel = userMapper.getUserByUsername(userModel.getUserName());
-        if (dbUserModel != null && isPasswordValid(dbUserModel, userModel.getPassword())) {
-            return dbUserModel;
-        }
-        return null;
+    /**
+     * 根据用户名获取用户拥有角色
+     * @param username
+     * @return
+     */
+    public Set<String> getRoles(String username) {
+        return userMapper.getRoles(username);
     }
 
-    public UserModel checkUserCredentials(String username, String password) {
-        UserModel userModel = new UserModel();
-        userModel.setUserName(username);
-        userModel.setPassword(password);
-        return this.login(userModel);
+    /**
+     * 根据用户名获取用户拥有权限
+     */
+    public Set<String> getPermissions(String username) {
+        return userMapper.getPermissions(username);
     }
 
-    private boolean isPasswordValid(UserModel dbUserModel, String password) {
-        byte[] passwordSalt = Base64.decodeBase64(dbUserModel.getPasswordSalt());
-        byte[] passwordHash = Base64.decodeBase64(dbUserModel.getPassword());
-
-        if (passwordSalt == null || passwordHash == null) {
-            return false;
-        }
-        return UserPasswordUtil.validatePassword(password, passwordSalt, passwordHash);
-    }*/
 }
