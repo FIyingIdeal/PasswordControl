@@ -35,4 +35,10 @@ public class UserControllerAdvice {
         return new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(), "没有授权的账号");
     }
 
+    @ExceptionHandler(Exception.class)
+    public ExceptionResponse getSQLException(Exception exception) {
+        String message = "未知错误：" + exception.getMessage();
+        return new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), message);
+    }
+
 }

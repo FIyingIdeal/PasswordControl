@@ -60,7 +60,7 @@
                 <entry key="roles" value-ref="ajaxRolesAuthorizationFilter"/>
             </util:map>
         </property>
-        <property name="filterChainDefinitions">
+        <!--<property name="filterChainDefinitions">
             <value>
                 /assets/** = anon
                 /css/** = anon
@@ -68,6 +68,20 @@
                 /js/** = anon
                 /logout = anon
                 /admin/** = authc,roles[admin]
+            </value>
+        </property>-->
+    </bean>
+
+    <bean id="dynamicPermissionService" class="com.flyingideal.security.dynamicPermission.DynamicPermissionServiceImpl">
+        <property name="shiroFilter" ref="shiroFilter"/>
+        <property name="addDefaultAllPatternFilter" value="true"/>
+        <property name="definitions">
+            <value>
+                /assets/** = anon
+                /css/** = anon
+                /img/** = anon
+                /js/** = anon
+                /logout = anon
             </value>
         </property>
     </bean>

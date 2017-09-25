@@ -2,13 +2,12 @@ package com.flyingideal.service;
 
 import com.flyingideal.dao.AdminMapper;
 import com.flyingideal.model.User;
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class AdminService {
         User user = userService.getUserByUsername(username);
         if (ObjectUtils.isEmpty(user)) {
             log.error("未找到用户名【{}】的用户", username);
-            throw new NullPointerException("未找到用户名【" + username + "】的用户");
+            throw new UnknownAccountException("未找到用户名为【" + username + "】的用户");
         }
         String userId = String.valueOf(user.getId());
         return adminMapper.addRole(userId, roleId, username) > 0;

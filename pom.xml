@@ -223,7 +223,7 @@
 
       <!--Gson处理json-->
       <dependency>
-          <groupId>com.google.httpStatusCode.gson</groupId>
+          <groupId>com.google.code.gson</groupId>
           <artifactId>gson</artifactId>
           <version>2.6.2</version>
       </dependency>
