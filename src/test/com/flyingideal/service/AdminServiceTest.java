@@ -1,4 +1,4 @@
-package com.flyingideal.admintest;
+package com.flyingideal.service;
 
 import com.flyingideal.service.AdminService;
 import org.junit.Assert;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
-public class adminServiceTest {
+public class AdminServiceTest {
 
     @Autowired
     private AdminService adminService;
