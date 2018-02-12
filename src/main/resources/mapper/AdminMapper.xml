@@ -24,7 +24,7 @@
     </select>
 
     <insert id="addRole">
-        INSERT INTO t_user_role (user_id, role_id, username) VALUE (#{userId}, #{roleId}, #{username});
+        INSERT INTO t_user_role (user_id, role_id, username) VALUE (#{userId}, #{roleId}, #{username})
     </insert>
 
     <delete id="deleteRole">

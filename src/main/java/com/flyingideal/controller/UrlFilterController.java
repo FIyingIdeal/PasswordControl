@@ -27,7 +27,7 @@ public class UrlFilterController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public Object deleteUrlFilter(@PathVariable Long id) {
+    public Object deleteUrlFilter(@PathVariable("id") Long id) {
         return urlFilterService.deleteUrlFilterById(id);
     }
 }

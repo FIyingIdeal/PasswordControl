@@ -135,9 +135,10 @@ public class DynamicPermissionServiceImpl implements DynamicPermissionService {
         }
         if (StringUtils.hasText(perms)) {
             String permissionString = permissionPatternString.replace("{0}", perms.trim().replace(" ", ""));
-            if (builder.length() > 0 && StringUtils.hasLength(permissionString)) {
-                builder.append(",").append(permissionString);
+            if (builder.length() > 0) {
+                builder.append(",");
             }
+            builder.append(permissionString);
         }
         return builder.toString();
     }
