@@ -2,16 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--WebSocket配置，需要在Spring MVC中配置，如果配置在Spring中将存在异常-->
     <import resource="spring-websocket.xml"/>
 
     <!--controller注解支持-->
-    <context:component-scan base-package="com.flyingideal.controller" use-default-filters="false">
+    <context:component-scan base-package="com.flyingideal.controller, com.flyingideal.ExceptionHandler" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
@@ -21,6 +23,15 @@
 
     <context:annotation-config />
     <bean class="com.flyingideal.configuration.MySwaggerConfig"/>
+
+    <!--启用shiro的注解时，需要注意AOP二次代理的问题，未解决  参考：http://jinnianshilongnian.iteye.com/blog/1894465
+    <aop:config proxy-target-class="true"></aop:config>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>-->
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <!-- 解决Response返回中文乱码 -->
@@ -125,6 +136,7 @@
             <props>
                 <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到error页面 -->
                 <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">login.html</prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">/index.jsp</prop>
             </props>
         </property>
     </bean>

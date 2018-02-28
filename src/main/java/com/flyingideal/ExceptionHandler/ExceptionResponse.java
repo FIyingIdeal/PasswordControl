@@ -5,24 +5,37 @@ package com.flyingideal.ExceptionHandler;
  * 异常信息包装类
  */
 public class ExceptionResponse {
-    private int code;
+
+    private boolean success;
+    private int httpStatusCode;
     private String message;
 
-    public ExceptionResponse(int code, String message) {
-        this.code = code;
+    public ExceptionResponse(boolean success, int httpStatusCode, String message) {
+        this.success = success;
+        this.httpStatusCode = httpStatusCode;
         this.message = message;
     }
 
-    public static ExceptionResponse create(int code, String message) {
-        return new ExceptionResponse(code, message);
+    public ExceptionResponse(int httpStatusCode, String message) {
+        success = false;
+        this.httpStatusCode = httpStatusCode;
+        this.message = message;
     }
 
-    public int getCode() {
-        return code;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+    public void setHttpStatusCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
     }
 
     public String getMessage() {
