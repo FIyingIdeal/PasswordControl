@@ -16,6 +16,9 @@
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <context:property-placeholder ignore-unresolvable="true"
+                                  location="classpath:system.properties" />
+
     <context:annotation-config />
     <bean class="com.flyingideal.configuration.MySwaggerConfig"/>
 
