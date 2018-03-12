@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>redirect test</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+        function redirectTest() {
+            $.ajax({
+                type:'get',
+                //url:'http://localhost:8080/redirect/target',
+                url:'http://localhost:8080/redirect/302',
+                success : function(data) {
+                    console.log("success: ", data);
+                },
+                error : function(data) {
+                    console.log("error", data);
+                },
+                complete : function(data) {
+                    console.log("complete", data);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<button onclick="redirectTest()">redirect test</button>
+</body>
+</html>
