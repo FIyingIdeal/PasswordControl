@@ -1,5 +1,6 @@
-package com.flyingideal.ExceptionHandler;
+package com.flyingideal.exception.handler;
 
+import com.flyingideal.model.ExceptionResponse;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;

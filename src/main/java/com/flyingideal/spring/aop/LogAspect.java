@@ -1,4 +1,4 @@
-package com.flyingideal.aop;
+package com.flyingideal.spring.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

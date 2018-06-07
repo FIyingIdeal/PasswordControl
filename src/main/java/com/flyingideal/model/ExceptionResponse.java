@@ -1,4 +1,4 @@
-package com.flyingideal.ExceptionHandler;
+package com.flyingideal.model;
 
 /**
  * Created by Administrator on 2016/4/9.

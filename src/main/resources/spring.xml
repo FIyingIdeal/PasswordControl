@@ -7,6 +7,7 @@
 
     <!-- service与DAO层 bean -->
     <import resource="spring/spring-bean.xml"/>
+    <import resource="spring/spring-testbean.xml"/>
     <import resource="spring/spring-dao.xml"/>
     <import resource="spring/spring-shiro.xml"/>
     

@@ -1,4 +1,4 @@
-package com.flyingideal.usertest.other;
+package com.flyingideal.applicationtest.other;
 
 import java.io.File;
 import java.util.ArrayList;

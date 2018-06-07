@@ -1,4 +1,4 @@
-package com.flyingideal.usertest.service;
+package com.flyingideal.applicationtest.service;
 
 import com.flyingideal.model.User;
 import com.flyingideal.service.UserService;

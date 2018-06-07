@@ -1,4 +1,4 @@
-package com.flyingideal.usertest.service;
+package com.flyingideal.applicationtest.service;
 
 import com.flyingideal.model.BlurredPassword;
 import com.flyingideal.service.BlurredPasswordService;

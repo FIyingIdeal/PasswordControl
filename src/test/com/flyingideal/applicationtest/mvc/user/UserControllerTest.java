@@ -1,11 +1,11 @@
-package com.flyingideal.mvc.user;
+package com.flyingideal.applicationtest.mvc.user;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-import com.flyingideal.mvc.AbstractContextControllerTests;
+import com.flyingideal.applicationtest.mvc.AbstractContextControllerTests;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Administrator on 2017/3/18.
@@ -168,6 +169,32 @@ public class User implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(salt, user.salt) &&
+                Objects.equals(locked, user.locked) &&
+                Objects.equals(source, user.source) &&
+                Objects.equals(sourceUserName, user.sourceUserName) &&
+                Objects.equals(organizationId, user.organizationId) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(telephone, user.telephone) &&
+                Objects.equals(birthday, user.birthday) &&
+                Objects.equals(gmtCreate, user.gmtCreate) &&
+                Objects.equals(gmtModified, user.gmtModified) &&
+                Objects.equals(roleIds, user.roleIds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, salt, locked, source, sourceUserName, organizationId, email, telephone, birthday, gmtCreate, gmtModified, roleIds);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -185,5 +212,11 @@ public class User implements Serializable {
                 ", gmtModified=" + gmtModified +
                 ", roleIds=" + roleIds +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new User("111", "222").hashCode());
+        System.out.println(new User("111", "222").hashCode());
+        System.out.println(new User("111", "222").hashCode());
     }
 }

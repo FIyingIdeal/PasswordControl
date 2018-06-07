@@ -1,11 +1,9 @@
-package com.flyingideal.usertest.other;
+package com.flyingideal.applicationtest.other;
 
 import org.junit.Test;
-import org.yaml.snakeyaml.reader.UnicodeReader;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 
 /**

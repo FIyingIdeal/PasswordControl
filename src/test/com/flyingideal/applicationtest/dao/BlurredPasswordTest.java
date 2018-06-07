@@ -1,4 +1,4 @@
-package com.flyingideal.usertest.dao;
+package com.flyingideal.applicationtest.dao;
 
 import com.flyingideal.dao.BlurredPasswordMapper;
 import com.flyingideal.model.BlurredPassword;

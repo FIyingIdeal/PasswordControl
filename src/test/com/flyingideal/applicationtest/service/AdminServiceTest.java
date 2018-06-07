@@ -1,4 +1,4 @@
-package com.flyingideal.service;
+package com.flyingideal.applicationtest.service;
 
 import com.flyingideal.service.AdminService;
 import org.junit.Assert;

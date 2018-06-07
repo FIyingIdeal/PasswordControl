@@ -25,9 +25,33 @@
         <property name="authorizationCacheName" value="authorizationCache"/>
     </bean>
 
+    <bean id="sessionDAO" class="com.flyingideal.security.session.dao.MysqlSessionDAO">
+        <constructor-arg ref="sessionMapper"/>
+    </bean>
+
+    <!-- 如果是web环境的话，即DefaultWebSecurityManager中配置的默认SessionManager为ServletContainerSessionManager -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="sessionDAO"/>
+    </bean>
+
+    <!-- 如果是web环境的话，即DefaultWebSecurityManager中配置的默认SessionStorageEvaluator就是DefaultWebSessionStorageEvaluator
+         但sessionStorageEnabled为true，即会保存登录状态和登录人信息到session中，这里配置成false进行测试
+
+         如果不希望将登录状态及登录人信息保存到session当中的话，可以将其设置为false，这样就需要每次请求携带身份信息或token了
+    -->
+    <bean id="sessionStorageEvaluator" class="org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator">
+        <property name="sessionStorageEnabled" value="false"/>
+    </bean>
+
+    <bean id="subjectDAO" class="org.apache.shiro.mgt.DefaultSubjectDAO">
+        <!--<property name="sessionStorageEvaluator" ref="sessionStorageEvaluator"/>-->
+    </bean>
+
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="userRealm"/>
         <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="subjectDAO" ref="subjectDAO"/>
     </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->

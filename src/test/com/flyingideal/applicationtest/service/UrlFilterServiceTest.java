@@ -1,6 +1,7 @@
-package com.flyingideal.service;
+package com.flyingideal.applicationtest.service;
 
 import com.flyingideal.model.UrlFilter;
+import com.flyingideal.service.UrlFilterService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

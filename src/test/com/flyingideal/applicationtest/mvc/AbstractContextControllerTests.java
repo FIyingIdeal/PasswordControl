@@ -1,4 +1,4 @@
-package com.flyingideal.mvc;
+package com.flyingideal.applicationtest.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
