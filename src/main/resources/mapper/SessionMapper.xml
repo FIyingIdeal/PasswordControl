@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flyingideal.dao.SessionMapper">
+
+
+    <insert id="saveSession">
+        INSERT INTO t_session (sessionId, sessionString) VALUE (#{sessionId}, #{session})
+    </insert>
+
+    <select id="getSerializedSession" parameterType="String" resultType="String">
+        SELECT sessionString FROM t_session WHERE sessionId = #{_parameter}
+    </select>
+
+    <update id="updateSession">
+        UPDATE t_session SET sessionString = #{session} where sessionId = #{sessionId}
+    </update>
+
+    <delete id="deleteSession" parameterType="String">
+        DELETE FROM t_session WHERE sessionId = #{_parameter}
+    </delete>
+</mapper>
